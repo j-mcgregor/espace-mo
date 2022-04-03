@@ -41,7 +41,7 @@ export const Blog: React.FC<PostPageProps> = (props) => {
     return (
         <Layout>
             <Head>
-                <title>Blog | Connexos Design</title>
+                <title>Espace Mo | Blog</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             Blog

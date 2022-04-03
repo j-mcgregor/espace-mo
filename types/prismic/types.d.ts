@@ -12,20 +12,6 @@ export interface PostProps {
     tags: string[]
     link_type: 'Web' | 'Document' | 'Media' | 'Any'
 }
-
-export interface ProductProps {
-    title: RichTextBlock[]
-    description: RichTextBlock[]
-    product_type: string
-    price: string
-    time_to_make: string
-    shipping: string
-    etsy_link: LinkType
-    main_image: RichTextBlock
-    images: Array<{ image: RichTextBlock }>
-    uid?: string
-}
-
 export interface SocialLink {
     name: 'Facebook' | 'Instagram' | 'Etsy' | 'Mail'
     url: LinkType
@@ -37,6 +23,12 @@ export interface ContactProps {
     subtitle: RichTextBlock[]
     background_image: RichTextBlock
     social_links: SocialLink[]
+}
+
+export interface PrismicHomepageProps {
+    header: RichTextBlock[]
+    logo: RichTextBlock;
+    slices: SliceType[]
 }
 
 /**
@@ -114,15 +106,11 @@ export interface ItemType {
 export interface SliceType {
     slice_type: SliceTypeName
     slice_label: string
+    variation: string
+    version: string
     items: ItemType[]
     primary: {
-        title1: RichTextBlock[]
-        paragraph: RichTextBlock[]
-        background_image1: RichTextBlock
-        text: RichTextBlock[]
-        image: RichTextBlock
-        quote: RichTextBlock[]
-        name_of_the_author: RichTextBlock[]
-        portrait_author: any
+        title: RichTextBlock[]
+        description: RichTextBlock[]
     }
 }

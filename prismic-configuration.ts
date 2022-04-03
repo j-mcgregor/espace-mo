@@ -1,9 +1,9 @@
 import Prismic from 'prismic-javascript'
 import { ApiOptions } from 'prismic-javascript/types/Api'
 
-export const apiEndpoint: string = 'https://l-and-m-wedding.cdn.prismic.io/api/v2'
+export const apiEndpoint: string = 'https://espace-mo.cdn.prismic.io/api/v2'
 export const accessToken: string =
-    'MC5YOWxORnhJQUFDWUE2R2ds.77-977-9TRkuYkHvv73vv73vv70_77-9Te-_ve-_vW7vv70P77-9Sg7vv71Q77-977-977-9d--_ve-_ve-_vXYp'
+    'MC5Za2t0LWhjQUFDWUF0Nmt2.ABRy77-9Lu-_vWHvv70ZDEbvv71077-9cu-_ve-_ve-_ve-_ve-_ve-_vT7vv73vv73vv73vv73vv73vv70ffBjvv70'
 
 // Client method to query documents from the Prismic repo
 export const Client = (req = null) =>

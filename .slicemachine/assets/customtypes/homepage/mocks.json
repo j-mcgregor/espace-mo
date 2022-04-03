@@ -1,0 +1,32 @@
+{
+  "id": "0bcc4b07-02f4-4c1d-b28f-5b1523b47445",
+  "uid": "ea-quaerat-omnis",
+  "type": "homepage",
+  "data": {
+    "header": [
+      {
+        "type": "paragraph",
+        "text": "Cupidatat culpa aliquip aliquip exercitation nostrud reprehenderit velit sit labore eu elit laborum ex.",
+        "spans": []
+      }
+    ],
+    "logo": {
+      "dimensions": {
+        "width": 900,
+        "height": 500
+      },
+      "alt": "Placeholder image",
+      "copyright": null,
+      "url": "https://images.unsplash.com/photo-1607582278043-57198ac8da43?w=900&h=500&fit=crop"
+    },
+    "background-image": {
+      "dimensions": {
+        "width": 900,
+        "height": 500
+      },
+      "alt": "Placeholder image",
+      "copyright": null,
+      "url": "https://images.unsplash.com/photo-1579931794097-0ad001e51edb?w=900&h=500&fit=crop"
+    }
+  }
+}
