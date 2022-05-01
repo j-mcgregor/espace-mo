@@ -1,6 +1,5 @@
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import ApiSearchResponse from 'prismic-javascript/types/ApiSearchResponse'
 import React, { useContext } from 'react'
 
@@ -16,35 +15,33 @@ interface PostPageProps {
     preview: any
 }
 
-export const BlogShow: React.FC<PostPageProps> = (props) => {
-    const router = useRouter()
+export const BlogIndex: React.FC<PostPageProps> = (props) => {
     const lang = useContext(LanguageContext) as LanguageContextType
 
-    const slug = router.query.slug
     return (
         <Layout>
             <Head>
                 <title>Espace Mo | Blog</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            Blog {slug}
+            All posts
         </Layout>
     )
 }
 
-export default BlogShow
+export default BlogIndex
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const data = await PrismicClient.getAllByType('post', {
-        orderings: '[my.blog.date desc]',
-        lang: `${params?.lang ?? ''}`,
-    })
+    // const data = await PrismicClient.getAllByType('post', {
+    //     orderings: '[my.blog.date desc]',
+    //     lang: `${params?.lang ?? ''}`,
+    // })
 
     const contactQuery = await PrismicClient.getByType('contact')
 
     return {
         props: {
-            data,
+            // data,
             contactQuery,
         },
     }

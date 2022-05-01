@@ -1,11 +1,10 @@
+import { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
-import { RichText } from 'prismic-reactjs'
 
+import { Layout } from '../components/Layout'
 import { PrismicClient } from '../lib/api'
-import type { PrismicDocument, PrismicHomepageProps } from '../types/prismic/types'
 
-import type { GetStaticProps, NextPage } from 'next'
+import type { PrismicDocument, PrismicHomepageProps } from '../types/prismic/types'
 
 interface HomepageProps {
     preview: boolean
@@ -14,22 +13,15 @@ interface HomepageProps {
 
 const Home: NextPage<HomepageProps> = ({ homepageQuery }) => {
     const data = homepageQuery.find((d) => d.lang === 'en-ca')?.data
-    console.log('data?.logo :>> ', data?.logo)
+
     return (
         <div>
             <Head>
                 <title>Espace Mo | Home</title>
             </Head>
-            <h1 className="text-3xl font-bold">
-                <RichText render={data?.header} />
-                {data && (
-                    <Image
-                        src={`${data?.logo.url}`}
-                        width={data?.logo.dimensions?.width}
-                        height={data?.logo.dimensions?.height}
-                    />
-                )}
-            </h1>{' '}
+            <Layout>
+                <h1 className="text-3xl font-bold">Home</h1>
+            </Layout>
         </div>
     )
 }
@@ -38,9 +30,9 @@ export const getStaticProps: GetStaticProps<HomepageProps> = async ({ preview = 
     const rawHomeQuery = await PrismicClient.getByType('homepage', {
         lang: '*',
     })
+
     // @ts-ignore
     const homepageQuery: Array<PrismicDocument<PrismicHomepageProps>> = rawHomeQuery.results
-    console.log('homepageQuery :>> ', homepageQuery)
 
     return {
         props: { preview, homepageQuery },
