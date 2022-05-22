@@ -2,6 +2,7 @@ import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import ApiSearchResponse from 'prismic-javascript/types/ApiSearchResponse'
 import React, { useContext } from 'react'
+import { BlogIndex } from '../../../components/blog'
 
 import { Layout } from '../../../components/Layout'
 import { LanguageContext, LanguageContextType } from '../../../context/LanguageContext'
@@ -15,7 +16,7 @@ interface PostPageProps {
     preview: any
 }
 
-export const BlogIndex: React.FC<PostPageProps> = (props) => {
+export const BlogPage: React.FC<PostPageProps> = (props) => {
     const lang = useContext(LanguageContext) as LanguageContextType
 
     return (
@@ -24,12 +25,12 @@ export const BlogIndex: React.FC<PostPageProps> = (props) => {
                 <title>Espace Mo | Blog</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            All posts
+            <BlogIndex />
         </Layout>
     )
 }
 
-export default BlogIndex
+export default BlogPage
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
     // const data = await PrismicClient.getAllByType('post', {

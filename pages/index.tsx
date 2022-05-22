@@ -1,5 +1,6 @@
 import { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
+import Homepage from '../components/Homepage'
 
 import { Layout } from '../components/Layout'
 import { PrismicClient } from '../lib/api'
@@ -20,7 +21,7 @@ const Home: NextPage<HomepageProps> = ({ homepageQuery }) => {
                 <title>Espace Mo | Home</title>
             </Head>
             <Layout>
-                <h1 className="text-3xl font-bold">Home</h1>
+                <Homepage />
             </Layout>
         </div>
     )

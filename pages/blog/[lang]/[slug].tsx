@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import ApiSearchResponse from 'prismic-javascript/types/ApiSearchResponse'
 import React, { useContext } from 'react'
+import { BlogShow } from '../../../components/blog/BlogShow'
 
 import { Layout } from '../../../components/Layout'
 import { LanguageContext, LanguageContextType } from '../../../context/LanguageContext'
@@ -16,7 +17,7 @@ interface PostPageProps {
     preview: any
 }
 
-export const BlogShow: React.FC<PostPageProps> = (props) => {
+export const BlogShowPage: React.FC<PostPageProps> = (props) => {
     const router = useRouter()
     const lang = useContext(LanguageContext) as LanguageContextType
 
@@ -27,34 +28,31 @@ export const BlogShow: React.FC<PostPageProps> = (props) => {
                 <title>Espace Mo | Blog</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            Blog {slug}
+            <BlogShow />
         </Layout>
     )
 }
 
-export default BlogShow
+export default BlogShowPage
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const data = await PrismicClient.getAllByType('post', {
-        orderings: '[my.blog.date desc]',
-        lang: `${params?.lang ?? ''}`,
-    })
+// export const getStaticProps: GetStaticProps = async ({ params }) => {
+//     const data = await PrismicClient.getAllByType('post', {
+//         orderings: '[my.blog.date desc]',
+//         lang: `${params?.lang ?? ''}`,
+//     })
 
-    const contactQuery = await PrismicClient.getByType('contact')
+//     const contactQuery = await PrismicClient.getByType('contact')
 
-    return {
-        props: {
-            data,
-            contactQuery,
-        },
-    }
-}
+//     return {
+//         props: {},
+//     }
+// }
 
-export async function getStaticPaths() {
-    const allPosts = await PrismicClient.getAllByType('post')
+// export async function getStaticPaths() {
+//     const allPosts = await PrismicClient.getAllByType('post')
 
-    return {
-        paths: allPosts.map(({ uid, lang }) => `/blog/${lang}/${uid}`) || [],
-        fallback: true,
-    }
-}
+//     return {
+//         paths: allPosts?.map(({ uid, lang }) => `/blog/${lang}/${uid}`) || [],
+//         fallback: true,
+//     }
+// }

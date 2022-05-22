@@ -1,5 +1,6 @@
 import { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
+import { About } from '../components/About'
 
 import { Layout } from '../components/Layout'
 import { PrismicClient } from '../lib/api'
@@ -11,16 +12,16 @@ interface AboutProps {
     aboutpageQuery: Array<PrismicDocument<PrismicHomepageProps>>
 }
 
-const About: NextPage<AboutProps> = ({ aboutpageQuery }) => {
+const AboutPage: NextPage<AboutProps> = ({ aboutpageQuery }) => {
     const data = aboutpageQuery.find((d) => d.lang === 'en-ca')?.data
 
     return (
         <div>
             <Head>
-                <title>Espace Mo | About</title>
+                <title>Espace Mo | AboutPage</title>
             </Head>
             <Layout>
-                <h1 className="text-3xl font-bold">About</h1>
+                <About />
             </Layout>
         </div>
     )
@@ -39,4 +40,4 @@ export const getStaticProps: GetStaticProps<AboutProps> = async ({ preview = fal
     }
 }
 
-export default About
+export default AboutPage

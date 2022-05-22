@@ -1,23 +1,31 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
-
-const navigation = [
-    { name: 'Home', href: '/', current: true },
-    { name: 'About', href: '/about', current: false },
-    { name: 'Blog', href: '/blog/en', current: false },
-    { name: 'Book', href: '/book', current: false },
-    { name: 'Contact', href: '/contact', current: false },
-]
+import { BellIcon, ChevronDownIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+import { useRouter } from 'next/router'
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
+type Lang = 'EN' | 'FR'
+
 export const Navbar: React.FC = () => {
+    const router = useRouter()
+    console.log(router.route)
+
+    const navigation = [
+        { name: 'Home', href: '/', current: router.route === '/' },
+        { name: 'About', href: '/about', current: router.route === '/about' },
+        { name: 'Blog', href: '/blog/en', current: router.route.startsWith('/blog') },
+        { name: 'Book', href: '/book', current: router.route === '/book' },
+        { name: 'Contact', href: '/contact', current: router.route === '/contact' },
+    ]
+
+    const [lang, setLang] = useState<Lang>('EN')
+
     return (
-        <Disclosure as="nav" className="bg-gray-800">
+        <Disclosure as="nav" className="text-gray-900 absolute w-full z-50">
             {({ open }) => (
                 <>
                     <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -45,7 +53,9 @@ export const Navbar: React.FC = () => {
                                         src="/images/logo vector.png"
                                         alt="Espace Mo"
                                     />
-                                    <div className="font-thin capitalize tracking-wider text-white">Espace Mo</div>
+                                    <div className="font-thin capitalize tracking-wider text-gray-900">
+                                        Espace Mo
+                                    </div>
                                 </div>
                                 <div className="hidden sm:block sm:ml-6">
                                     <div className="flex space-x-4">
@@ -56,7 +66,7 @@ export const Navbar: React.FC = () => {
                                                 className={classNames(
                                                     item.current
                                                         ? 'bg-gray-900 text-white'
-                                                        : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                                        : 'text-gray-900 hover:bg-gray-700 hover:text-white',
                                                     'px-3 py-2 rounded-md text-sm font-thin capitalize tracking-wider'
                                                 )}
                                                 aria-current={item.current ? 'page' : undefined}
@@ -67,6 +77,53 @@ export const Navbar: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
+                            <Menu as="div" className="relative inline-block text-left z-50 ml-4">
+                                <Menu.Button className="inline-flex w-full justify-center rounded-md bg-gray-700 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                                    {lang}
+                                    <ChevronDownIcon
+                                        className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
+                                        aria-hidden="true"
+                                    />
+                                </Menu.Button>
+                                <Transition
+                                    as={Fragment}
+                                    enter="transition ease-out duration-100"
+                                    enterFrom="transform opacity-0 scale-95"
+                                    enterTo="transform opacity-100 scale-100"
+                                    leave="transition ease-in duration-75"
+                                    leaveFrom="transform opacity-100 scale-100"
+                                    leaveTo="transform opacity-0 scale-95"
+                                >
+                                    <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <div className="px-1 py-1 ">
+                                            <Menu.Item>
+                                                {({ active }) => (
+                                                    <button
+                                                        className={`${
+                                                            active ? 'bg-violet-500 text-white' : 'text-gray-900'
+                                                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                                        onClick={() => setLang('EN')}
+                                                    >
+                                                        EN
+                                                    </button>
+                                                )}
+                                            </Menu.Item>
+                                            <Menu.Item>
+                                                {({ active }) => (
+                                                    <button
+                                                        className={`${
+                                                            active ? 'bg-violet-500 text-white' : 'text-gray-900'
+                                                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                                        onClick={() => setLang('FR')}
+                                                    >
+                                                        FR
+                                                    </button>
+                                                )}
+                                            </Menu.Item>
+                                        </div>
+                                    </Menu.Items>
+                                </Transition>
+                            </Menu>
                         </div>
                     </div>
 
