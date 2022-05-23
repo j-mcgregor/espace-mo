@@ -19,6 +19,7 @@ interface PostPageProps {
 export const BlogPage: React.FC<PostPageProps> = (props) => {
     const lang = useContext(LanguageContext) as LanguageContextType
 
+    console.log('lang', lang)
     return (
         <Layout>
             <Head>

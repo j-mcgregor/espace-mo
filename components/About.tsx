@@ -3,7 +3,10 @@ import React from 'react'
 
 export const About = () => {
     return (
-        <div className="dark:bg-gray-50">
+        <div
+            className="dark:bg-gray-50 bg-no-repeat bg-cover bg-top"
+            style={{ backgroundImage: 'url(/images/plant-2.svg)' }}
+        >
             <div className="container mx-auto py-9 md:py-12 lg:py-24">
                 <div className="flex flex-col lg:flex-row justify-center items-strech mx-4">
                     <div className="lg:w-4/12 flex justify-center items-center">
@@ -16,9 +19,14 @@ export const About = () => {
                                 cupiditate? Nulla cupiditate ut pariatur dolores aliquid hic voluptatem enim maxime
                                 impedit. Quis eos veritatis eveniet rerum, necessitatibus voluptates!
                             </p>
+                            <p className="dark:text-gray-600 md:w-7/12 lg:w-11/12 xl:w-10/12 mt-4 lg:mt-5 text-base leading-normal text-gray-600">
+                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reprehenderit et aliquam
+                                cupiditate? Nulla cupiditate ut pariatur dolores aliquid hic voluptatem enim maxime
+                                impedit. Quis eos veritatis eveniet rerum, necessitatibus voluptates!
+                            </p>
                         </div>
                     </div>
-                    <div className="lg:w-6/12 mt-6 md:mt-8 lg:mt-0">
+                    <div className="lg:w-4/12 mt-6 md:mt-8 lg:mt-0">
                         <div className="relative w-full h-full">
                             <img
                                 src="https://images.unsplash.com/photo-1639162906614-0603b0ae95fd?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987"

@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import React from 'react'
+import React, { useContext } from 'react'
+import { LanguageContext, LanguageContextType } from '../../context/LanguageContext'
 
 interface BlogCardProps {
     category: string
@@ -41,12 +42,21 @@ export const BlogCard = ({ category, title, summary, button, image }: BlogCardPr
 }
 
 export const BlogIndex = () => {
+    const [lang] = useContext(LanguageContext) as LanguageContextType
+
+    console.log('lang :>> ', lang)
     return (
         <section className="text-gray-600 body-font">
             <div className="container px-5 py-24 mx-auto">
+                <h1 className="text-7xl mb-5">Blog</h1>
+                <p className="py-5">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum, voluptates fugiat cum illum
+                    doloribus tenetur adipisci nulla earum amet. Accusamus cum, facilis nam reprehenderit
+                    reiciendis tenetur asperiores ex perspiciatis deserunt.
+                </p>
                 <div className="flex flex-wrap -m-4">
                     <BlogCard
-                        button={{ href: '#', label: 'See more' }}
+                        button={{ href: '/123', label: 'See more' }}
                         category="Category 1"
                         summary="Photo booth fam kinfolk cold-pressed sriracha leggings jianbing microdosing
                                     tousled waistcoat."
@@ -54,7 +64,7 @@ export const BlogIndex = () => {
                         image="https://images.unsplash.com/photo-1618172193622-ae2d025f4032?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1064&q=80"
                     />
                     <BlogCard
-                        button={{ href: '#', label: 'See more' }}
+                        button={{ href: '/123', label: 'See more' }}
                         category="Category 2"
                         summary="Photo booth fam kinfolk cold-pressed sriracha leggings jianbing microdosing
                                     tousled waistcoat."
@@ -62,7 +72,7 @@ export const BlogIndex = () => {
                         image="https://images.unsplash.com/photo-1624628639856-100bf817fd35?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8M2QlMjBpbWFnZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60"
                     />
                     <BlogCard
-                        button={{ href: '#', label: 'See more' }}
+                        button={{ href: '/123', label: 'See more' }}
                         category="Category 3"
                         summary="Photo booth fam kinfolk cold-pressed sriracha leggings jianbing microdosing
                                     tousled waistcoat."

@@ -3,7 +3,10 @@ import React from 'react'
 export const Contact = () => {
     return (
         <section>
-            <div className="bg-gradient-to-br from-slate-100 to-slate-500 text-gray-900 py-10">
+            <div
+                className="bg-gray-50 py-10 bg-no-repeat bg-cover"
+                style={{ backgroundImage: 'url(/images/plant-1.svg)' }}
+            >
                 <div className="container mx-auto flex flex-col md:flex-row my-6 md:my-24 max-w-5xl">
                     <div className="flex flex-col w-full lg:w-1/3 p-8">
                         <p className="text-3xl md:text-5xl my-4 leading-relaxed md:leading-snug text-slate-900">

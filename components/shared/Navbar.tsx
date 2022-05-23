@@ -65,7 +65,7 @@ export const Navbar: React.FC = () => {
                                                 href={item.href}
                                                 className={classNames(
                                                     item.current
-                                                        ? 'bg-gray-900 text-white'
+                                                        ? 'bg-gray-700 text-white'
                                                         : 'text-gray-900 hover:bg-gray-700 hover:text-white',
                                                     'px-3 py-2 rounded-md text-sm font-thin capitalize tracking-wider'
                                                 )}
