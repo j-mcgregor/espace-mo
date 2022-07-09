@@ -1,26 +1,49 @@
 import Link from 'next/link'
-import React from 'react'
+import { HTMLSerializer, RichText } from 'prismic-reactjs'
+import React, { useContext, useEffect, useState } from 'react'
+import { LanguageContext, LanguageContextType } from '../context/LanguageContext'
+import { PrismicDocument, PrismicHomepageProps, PrismicSharedProps } from '../types/prismic/types'
+import ErrorBoundary from './ErrorBoundary'
 import Hero from './shared/Hero'
 
-const Homepage = () => {
+interface IHome {
+    query: PrismicDocument<PrismicHomepageProps>[]
+    shared: PrismicDocument<PrismicSharedProps>[]
+}
+
+const Homepage: React.FC<IHome> = ({ query, shared }) => {
+    const [lang] = useContext(LanguageContext) as LanguageContextType
+    const [data, setData] = useState<PrismicDocument<PrismicHomepageProps>>()
+    const [sharedData, setSharedData] = useState<PrismicDocument<PrismicSharedProps>>()
+    console.log({ lang })
+
+    useEffect(() => {
+        if (query && shared) {
+            const home = query.find((d) => d.lang === lang)
+            const sharedD = shared.find((d) => d.lang === lang)
+
+            setData(home)
+            setSharedData(sharedD)
+        }
+    }, [query, shared, lang])
+
     return (
-        <>
+        <ErrorBoundary>
             <div className="bg-white relative">
                 <div className="container mx-auto px-6 sm:px-12 flex flex-col sm:flex-row items-center relative z-10">
                     <div className="sm:w-1/2 xl:w-2/6 flex flex-col items-start py-24 sm:py-0">
                         <h1 className="text-6xl xl:text-8xl font-abhaya-libre text-green-900 font-bold leading-none">
-                            Espace Mo.
+                            {RichText.asText(data?.data.header || [])}
                         </h1>
                         <h2 className="text-xl xl:text-3xl font-abhaya-libre text-green-900 uppercase font-bold leading-none tracking-widest -mt-2 mb-6">
-                            Osteopathy
+                            {RichText.asText(data?.data.subtitle || [])}
                         </h2>
                         <p className="xl:text-lg tracking-wider text-gray-700 font-alegraya-sans">
-                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh minim
-                            veniam, quis nostrud
+                            {RichText.asText(data?.data.description || [])}
                         </p>
                         <Link href="#">
                             <a className="font-montserrat text-white sm:font-xl uppercase py-3 px-6 sm:py-4 sm:px-8 rounded-full shadow-lg bg-green-900 hover:bg-green-800 mt-8">
-                                Book now
+                                {sharedData?.data.book_now}
                             </a>
                         </Link>
                     </div>
@@ -111,7 +134,7 @@ const Homepage = () => {
                             <path fill="none" d="M645.55 419.74H0V0h645.55z" />
                         </clipPath>
                     </defs>
-                    <g clip-path="url(#a)">
+                    <g clipPath="url(#a)">
                         <path
                             fill="#fdf0ec"
                             d="M40.66 90c21.45-2.15 35.74-20.91 56.58-26.38 20.11-5.27 42.25-3.48 60.75 6.26 11.12 5.84 20.8 14.13 31.9 20s24.62 9.22 36.19 4.32C241.91 87.5 247.09 69.91 252 55c3.8-11.57 8.11-22.69 16-31.88 8.3-9.68 15.56-20.46 19-32.9 10.79-39.52-31.18-79.35-64-93.81-29-12.8-61.58-15.52-93.25-13.74-32.54 1.83-65.31 8.42-94 23.84s-53.2 40.36-63.69 71.22c-9.44 27.78-6.82 62.8 13.64 85.41C.28 79.25 19.7 92 40.66 90zM660.67 313.05c-39.14-30.87-98.63-28.29-135.24 5.39-22.55 20.75-38.88 56.74-31.71 87.63 5.32 23 23 38.46 42.1 50.39 22.18 13.87 45.92 29.54 73.47 25.19 21.46-3.35 39.46-18.89 51-37.3 7.37-11.8 12.47-24.8 16.73-38 3.32-10.3 9.23-21.91 10.59-32.51 2.97-23.34-8.83-46.51-26.94-60.79z"
@@ -159,14 +182,14 @@ const Homepage = () => {
                         <div className="lg:w-4/12 mt-6 md:mt-8 lg:mt-0">
                             <div className="relative w-full h-full">
                                 <img
-                                    src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987"
-                                    alt="A lounge sofa"
+                                    src={data?.data.intro_image.url}
+                                    alt={data?.data.intro_image.alt || ''}
                                     role="img"
                                     className="w-full h-full relative hidden lg:block"
                                 />
                                 <img
-                                    src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987"
-                                    alt="A lounge sofa"
+                                    src={data?.data.intro_image.url}
+                                    alt={data?.data.intro_image.alt || ''}
                                     role="img"
                                     className="w-full h-full lg:hidden"
                                 />
@@ -175,17 +198,14 @@ const Homepage = () => {
                         <div className="lg:w-4/12 flex justify-center items-center">
                             <div className="ml-10 flex flex-col">
                                 <h1 className="dark:text-gray-700 text-4xl md:text-5xl xl:text-6xl font-semibold text-gray-900 w-7/12">
-                                    Working for you
+                                    {RichText.asText(data?.data.intro_title || [])}
                                 </h1>
                                 <p className="dark:text-gray-600 md:w-7/12 lg:w-11/12 xl:w-10/12 mt-4 lg:mt-5 text-base leading-normal text-gray-600">
-                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reprehenderit et
-                                    aliquam cupiditate? Nulla cupiditate ut pariatur dolores aliquid hic voluptatem
-                                    enim maxime impedit. Quis eos veritatis eveniet rerum, necessitatibus
-                                    voluptates!
+                                    {RichText.asText(data?.data.intro_description || [])}
                                 </p>
                                 <Link href="#">
                                     <a className="text-white sm:font-xl uppercase py-3 px-6 sm:py-4 sm:px-8 rounded-full shadow-lg bg-green-900 hover:bg-green-800 mt-8 inline-block">
-                                        Book now
+                                        {sharedData?.data.book_now}
                                     </a>
                                 </Link>
                             </div>
@@ -193,7 +213,7 @@ const Homepage = () => {
                     </div>
                 </div>
             </div>
-        </>
+        </ErrorBoundary>
     )
 }
 

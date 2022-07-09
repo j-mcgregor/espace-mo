@@ -27,8 +27,54 @@ export interface ContactProps {
 
 export interface PrismicHomepageProps {
     header: RichTextBlock[]
-    logo: RichTextBlock;
-    slices: SliceType[]
+    subtitle: RichTextBlock[]
+    description: RichTextBlock[]
+    logo: RichTextBlock
+    'background-image': RichTextBlock
+    intro_title: RichTextBlock[]
+    intro_description: RichTextBlock[]
+    intro_image: RichTextBlock
+    book_now: string
+}
+
+export interface PrismicBookingpageProps {
+    title: RichTextBlock[]
+    description: RichTextBlock[]
+    main_image: RichTextBlock
+}
+
+export interface PrismicContactProps {
+    title: RichTextBlock[]
+    description: RichTextBlock[]
+    contact_info: {
+        method_name: string,
+        method_value: string
+    }[]
+    contact_image: RichTextBlock
+  }
+
+export interface PrismicSharedProps {
+    book_now: string
+    home_nav: string
+    about_nav: string
+    blog_nav: string
+    contact_nav: string
+    book_nav: string
+    "form-email": string
+    "form-firstname": string
+    "form-lastname": string
+    "form-message": string
+}
+
+export interface PrismicAboutpageProps {
+    title: RichTextBlock[]
+    description: RichTextBlock[]
+    main_image: RichTextBlock
+}
+
+export interface SharedProps {
+    preview: boolean
+    sharedQuery: Array<PrismicDocument<PrismicSharedProps>>
 }
 
 /**

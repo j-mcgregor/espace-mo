@@ -1,20 +1,18 @@
 import { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
-import { Booking } from '../components/Booking'
 
+import { Booking } from '../components/Booking'
 import { Layout } from '../components/Layout'
 import { PrismicClient } from '../lib/api'
 
-import type { PrismicDocument, PrismicHomepageProps } from '../types/prismic/types'
+import type { PrismicBookingpageProps, PrismicDocument, SharedProps } from '../types/prismic/types'
 
-interface AboutProps {
-    preview: boolean
-    aboutpageQuery: Array<PrismicDocument<PrismicHomepageProps>>
+interface AboutProps extends SharedProps {
+    bookingQuery: Array<PrismicDocument<PrismicBookingpageProps>>
 }
 
-const Book: NextPage<AboutProps> = ({ aboutpageQuery }) => {
-    const data = aboutpageQuery.find((d) => d.lang === 'en-ca')?.data
+const Book: NextPage<AboutProps> = ({ bookingQuery, sharedQuery }) => {
     const [isSSR, setIsSSR] = useState(true)
     const sid = 'gorendezvous-bookingwidget-script'
 
@@ -43,38 +41,27 @@ const Book: NextPage<AboutProps> = ({ aboutpageQuery }) => {
             <Head>
                 <title>Espace Mo | Book</title>
             </Head>
-            <Layout>{!isSSR && <Booking />}</Layout>
+            <Layout>{!isSSR && <Booking query={bookingQuery} shared={sharedQuery} />}</Layout>
         </div>
     )
 }
 
 export const getStaticProps: GetStaticProps<AboutProps> = async ({ preview = false }) => {
-    const rawHomeQuery = await PrismicClient.getByType('about', {
+    const rawHomeQuery = await PrismicClient.getByType('booking', {
+        lang: '*',
+    })
+    const rawSharedQuery = await PrismicClient.getByType('shared', {
         lang: '*',
     })
 
     // @ts-ignore
-    const aboutpageQuery: Array<PrismicDocument<PrismicAboutProps>> = rawHomeQuery.results
+    const bookingQuery: Array<PrismicDocument<PrismicBookingpageProps>> = rawHomeQuery.results
+    // @ts-ignore
+    const sharedQuery: Array<PrismicDocument<PrismicSharedProps>> = rawSharedQuery.results
 
     return {
-        props: { preview, aboutpageQuery },
+        props: { preview, bookingQuery, sharedQuery },
     }
 }
 
 export default Book
-
-/* <div
-        data-professionalpagename="espacemo2"
-        data-bookingwidgeturlparams="companyId=127864"
-        data-language="en"
-        data-label="Book Appointment"
-        data-url="https://www.gorendezvous.com/"
-        className="gorendezvous-button"
-        data-buttoncolor="primary"
-        data-width="280px"
-        data-height="50px"
-    >
-        <a href="https://www.gorendezvous.com/espacemo2?companyId=127864" target="GOrendezvous">
-            Book Appointment
-        </a>
-    </div> */

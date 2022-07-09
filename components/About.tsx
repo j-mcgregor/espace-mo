@@ -1,7 +1,30 @@
 import { ArrowRightIcon } from '@heroicons/react/outline'
-import React from 'react'
+import { RichText } from 'prismic-reactjs'
+import React, { useContext, useEffect, useState } from 'react'
+import { LanguageContext, LanguageContextType } from '../context/LanguageContext'
+import { PrismicDocument, PrismicAboutpageProps, PrismicSharedProps } from '../types/prismic/types'
 
-export const About = () => {
+interface IAbout {
+    query: PrismicDocument<PrismicAboutpageProps>[]
+    shared: PrismicDocument<PrismicSharedProps>[]
+}
+
+export const About: React.FC<IAbout> = ({ query, shared }) => {
+    const [lang] = useContext(LanguageContext) as LanguageContextType
+    const [data, setData] = useState<PrismicDocument<PrismicAboutpageProps>>()
+    const [sharedData, setSharedData] = useState<PrismicDocument<PrismicSharedProps>>()
+    console.log({ lang })
+
+    useEffect(() => {
+        if (query && shared) {
+            const about = query.find((d) => d.lang === lang)
+            const sharedD = shared.find((d) => d.lang === lang)
+
+            setData(about)
+            setSharedData(sharedD)
+        }
+    }, [query, shared, lang])
+
     return (
         <div
             className="dark:bg-gray-50 bg-no-repeat bg-cover bg-top"
@@ -12,17 +35,10 @@ export const About = () => {
                     <div className="lg:w-4/12 flex justify-center items-center">
                         <div>
                             <h1 className="dark:text-gray-700 text-4xl md:text-5xl xl:text-6xl font-semibold text-gray-900 w-7/12">
-                                Amoire
+                                {RichText.asText(data?.data.title || [])}
                             </h1>
-                            <p className="dark:text-gray-600 md:w-7/12 lg:w-11/12 xl:w-10/12 mt-4 lg:mt-5 text-base leading-normal text-gray-600">
-                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reprehenderit et aliquam
-                                cupiditate? Nulla cupiditate ut pariatur dolores aliquid hic voluptatem enim maxime
-                                impedit. Quis eos veritatis eveniet rerum, necessitatibus voluptates!
-                            </p>
-                            <p className="dark:text-gray-600 md:w-7/12 lg:w-11/12 xl:w-10/12 mt-4 lg:mt-5 text-base leading-normal text-gray-600">
-                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reprehenderit et aliquam
-                                cupiditate? Nulla cupiditate ut pariatur dolores aliquid hic voluptatem enim maxime
-                                impedit. Quis eos veritatis eveniet rerum, necessitatibus voluptates!
+                            <p className="dark:text-gray-600 md:w-7/12 lg:w-11/12 xl:w-10/12 mt-4 lg:mt-5 text-base leading-normal text-gray-600 space-y-3">
+                                <RichText render={data?.data.description} />
                             </p>
                         </div>
                     </div>
@@ -42,7 +58,7 @@ export const About = () => {
                             />
                             <div className="hidden lg:block absolute bottom-0 right-0 bg-red-200 w-1/2">
                                 <button className="dark:hover:bg-gray-800 dark:bg-white dark:hover:text-gray-50 dark:text-gray-800 bg-gray-800 text-xl xl:text-2xl font-medium text-white flex justify-between w-full items-center p-5 xl:p-6 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 hover:bg-gray-700">
-                                    Book now
+                                    {sharedData?.data.book_now}
                                     <ArrowRightIcon width={50} />
                                 </button>
                             </div>

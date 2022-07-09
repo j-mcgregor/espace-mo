@@ -1,6 +1,34 @@
-import React from 'react'
+import { RichText } from 'prismic-reactjs'
+import React, { useContext, useEffect, useState } from 'react'
+import { LanguageContext, LanguageContextType } from '../context/LanguageContext'
+import {
+    PrismicBookingpageProps,
+    PrismicContactProps,
+    PrismicDocument,
+    PrismicSharedProps,
+} from '../types/prismic/types'
 
-export const Contact = () => {
+interface IContact {
+    query: PrismicDocument<PrismicContactProps>[]
+    shared: PrismicDocument<PrismicSharedProps>[]
+}
+
+export const Contact: React.FC<IContact> = ({ query, shared }) => {
+    console.log(shared)
+    const [lang] = useContext(LanguageContext) as LanguageContextType
+    const [data, setData] = useState<PrismicDocument<PrismicContactProps>>()
+    const [sharedData, setSharedData] = useState<PrismicDocument<PrismicSharedProps>>()
+
+    useEffect(() => {
+        if (query) {
+            const contact = query.find((d) => d.lang === lang)
+            const sharedD = shared.find((d) => d.lang === lang)
+
+            setData(contact)
+            setSharedData(sharedD)
+        }
+    }, [query, lang])
+
     return (
         <section>
             <div
@@ -8,15 +36,24 @@ export const Contact = () => {
                 style={{ backgroundImage: 'url(/images/plant-1.svg)' }}
             >
                 <div className="container mx-auto flex flex-col md:flex-row my-6 md:my-24 max-w-5xl">
-                    <div className="flex flex-col w-full lg:w-1/3 p-8">
+                    <div className="flex flex-col w-full lg:w-1/3 p-8 space-y-5">
                         <p className="text-3xl md:text-5xl my-4 leading-relaxed md:leading-snug text-slate-900">
-                            Get in touch
+                            {RichText.asText(data?.data.title || [])}
                         </p>
-                        <p className="text-sm md:text-base leading-snug text-opacity-100">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam rem esse facilis
-                            pariatur velit sed hic iusto sint dolorum! Error a quaerat itaque modi dolor odit non
-                            vel illum dicta.
-                        </p>
+                        <div className="text-sm md:text-base leading-snug text-opacity-100">
+                            <RichText render={data?.data.description} />
+                        </div>
+                        <div className="divide-y-2">
+                            {data?.data.contact_info.map((method, i) => (
+                                <div
+                                    key={`${method.method_name}-${method.method_value}`}
+                                    className="w-full flex justify-between text-sm py-2"
+                                >
+                                    <span className="text-stone-400">{method.method_name}</span>
+                                    <span>{method.method_value}</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                     <div className="flex flex-col w-full lg:w-2/3 justify-center">
                         <div className="container w-full px-4">
@@ -30,7 +67,7 @@ export const Contact = () => {
                                                         className="block uppercase text-gray-50 text-xs font-bold mb-2"
                                                         htmlFor="email"
                                                     >
-                                                        First name
+                                                        {sharedData?.data['form-firstname']}
                                                     </label>
                                                     <input
                                                         type="text"
@@ -47,7 +84,7 @@ export const Contact = () => {
                                                         className="block uppercase text-gray-50 text-xs font-bold mb-2"
                                                         htmlFor="email"
                                                     >
-                                                        Last name
+                                                        {sharedData?.data['form-lastname']}
                                                     </label>
                                                     <input
                                                         type="text"
@@ -64,7 +101,7 @@ export const Contact = () => {
                                                         className="block uppercase text-gray-50 text-xs font-bold mb-2"
                                                         htmlFor="email"
                                                     >
-                                                        Email
+                                                        {sharedData?.data['form-email']}
                                                     </label>
                                                     <input
                                                         type="email"
@@ -81,7 +118,7 @@ export const Contact = () => {
                                                         className="block uppercase text-gray-50 text-xs font-bold mb-2"
                                                         htmlFor="message"
                                                     >
-                                                        Message
+                                                        {sharedData?.data['form-message']}
                                                     </label>
                                                     <textarea
                                                         name="feedback"

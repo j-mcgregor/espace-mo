@@ -1,18 +1,17 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useState } from 'react'
+import { Fragment, useContext, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, ChevronDownIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
+import { LanguageContext, LanguageContextType } from '../../context/LanguageContext'
+import { Lang } from '../../constants'
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-type Lang = 'EN' | 'FR'
-
 export const Navbar: React.FC = () => {
     const router = useRouter()
-    console.log(router.route)
 
     const navigation = [
         { name: 'Home', href: '/', current: router.route === '/' },
@@ -22,7 +21,7 @@ export const Navbar: React.FC = () => {
         { name: 'Contact', href: '/contact', current: router.route === '/contact' },
     ]
 
-    const [lang, setLang] = useState<Lang>('EN')
+    const [lang, setLang] = useContext(LanguageContext) as LanguageContextType
 
     return (
         <Disclosure as="nav" className="text-gray-900 absolute w-full z-50">
@@ -79,7 +78,7 @@ export const Navbar: React.FC = () => {
                             </div>
                             <Menu as="div" className="relative inline-block text-left z-50 ml-4">
                                 <Menu.Button className="inline-flex w-full justify-center rounded-md bg-gray-700 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-                                    {lang}
+                                    {lang === Lang.EN ? 'EN' : 'FR'}
                                     <ChevronDownIcon
                                         className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
                                         aria-hidden="true"
@@ -102,7 +101,7 @@ export const Navbar: React.FC = () => {
                                                         className={`${
                                                             active ? 'bg-violet-500 text-white' : 'text-gray-900'
                                                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                                                        onClick={() => setLang('EN')}
+                                                        onClick={() => setLang(Lang.EN)}
                                                     >
                                                         EN
                                                     </button>
@@ -114,7 +113,7 @@ export const Navbar: React.FC = () => {
                                                         className={`${
                                                             active ? 'bg-violet-500 text-white' : 'text-gray-900'
                                                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                                                        onClick={() => setLang('FR')}
+                                                        onClick={() => setLang(Lang.FR)}
                                                     >
                                                         FR
                                                     </button>

@@ -5,23 +5,25 @@ import { About } from '../components/About'
 import { Layout } from '../components/Layout'
 import { PrismicClient } from '../lib/api'
 
-import type { PrismicDocument, PrismicHomepageProps } from '../types/prismic/types'
+import type {
+    PrismicDocument,
+    PrismicAboutpageProps,
+    PrismicSharedProps,
+    SharedProps,
+} from '../types/prismic/types'
 
-interface AboutProps {
-    preview: boolean
-    aboutpageQuery: Array<PrismicDocument<PrismicHomepageProps>>
+interface AboutProps extends SharedProps {
+    aboutpageQuery: Array<PrismicDocument<PrismicAboutpageProps>>
 }
 
-const AboutPage: NextPage<AboutProps> = ({ aboutpageQuery }) => {
-    const data = aboutpageQuery.find((d) => d.lang === 'en-ca')?.data
-
+const AboutPage: NextPage<AboutProps> = ({ aboutpageQuery, sharedQuery }) => {
     return (
         <div>
             <Head>
                 <title>Espace Mo | AboutPage</title>
             </Head>
             <Layout>
-                <About />
+                <About query={aboutpageQuery} shared={sharedQuery} />
             </Layout>
         </div>
     )
@@ -32,11 +34,16 @@ export const getStaticProps: GetStaticProps<AboutProps> = async ({ preview = fal
         lang: '*',
     })
 
+    const rawSharedQuery = await PrismicClient.getByType('shared', {
+        lang: '*',
+    })
     // @ts-ignore
     const aboutpageQuery: Array<PrismicDocument<PrismicAboutProps>> = rawHomeQuery.results
+    // @ts-ignore
+    const sharedQuery: Array<PrismicDocument<PrismicSharedProps>> = rawSharedQuery.results
 
     return {
-        props: { preview, aboutpageQuery },
+        props: { preview, aboutpageQuery, sharedQuery },
     }
 }
 
