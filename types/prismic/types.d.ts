@@ -12,20 +12,6 @@ export interface PostProps {
     tags: string[]
     link_type: 'Web' | 'Document' | 'Media' | 'Any'
 }
-
-export interface ProductProps {
-    title: RichTextBlock[]
-    description: RichTextBlock[]
-    product_type: string
-    price: string
-    time_to_make: string
-    shipping: string
-    etsy_link: LinkType
-    main_image: RichTextBlock
-    images: Array<{ image: RichTextBlock }>
-    uid?: string
-}
-
 export interface SocialLink {
     name: 'Facebook' | 'Instagram' | 'Etsy' | 'Mail'
     url: LinkType
@@ -37,6 +23,58 @@ export interface ContactProps {
     subtitle: RichTextBlock[]
     background_image: RichTextBlock
     social_links: SocialLink[]
+}
+
+export interface PrismicHomepageProps {
+    header: RichTextBlock[]
+    subtitle: RichTextBlock[]
+    description: RichTextBlock[]
+    logo: RichTextBlock
+    'background-image': RichTextBlock
+    intro_title: RichTextBlock[]
+    intro_description: RichTextBlock[]
+    intro_image: RichTextBlock
+    book_now: string
+}
+
+export interface PrismicBookingpageProps {
+    title: RichTextBlock[]
+    description: RichTextBlock[]
+    main_image: RichTextBlock
+}
+
+export interface PrismicContactProps {
+    title: RichTextBlock[]
+    description: RichTextBlock[]
+    contact_info: {
+        method_name: string,
+        method_value: string
+    }[]
+    contact_image: RichTextBlock
+  }
+
+export interface PrismicSharedProps {
+    book_now: string
+    home_nav: string
+    about_nav: string
+    blog_nav: string
+    contact_nav: string
+    book_nav: string
+    "form-email": string
+    "form-firstname": string
+    "form-lastname": string
+    "form-message": string
+}
+
+export interface PrismicAboutpageProps {
+    title: RichTextBlock[]
+    description: RichTextBlock[]
+    main_image: RichTextBlock
+}
+
+export interface SharedProps {
+    preview: boolean
+    sharedQuery: Array<PrismicDocument<PrismicSharedProps>>
 }
 
 /**
@@ -114,15 +152,11 @@ export interface ItemType {
 export interface SliceType {
     slice_type: SliceTypeName
     slice_label: string
+    variation: string
+    version: string
     items: ItemType[]
     primary: {
-        title1: RichTextBlock[]
-        paragraph: RichTextBlock[]
-        background_image1: RichTextBlock
-        text: RichTextBlock[]
-        image: RichTextBlock
-        quote: RichTextBlock[]
-        name_of_the_author: RichTextBlock[]
-        portrait_author: any
+        title: RichTextBlock[]
+        description: RichTextBlock[]
     }
 }

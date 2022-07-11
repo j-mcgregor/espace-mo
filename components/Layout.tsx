@@ -1,5 +1,12 @@
 import React from 'react'
 
+import { Navbar } from './shared/Navbar'
+
 export const Layout: React.FC = ({ children }) => {
-    return <div>{children}</div>
+    return (
+        <div>
+            <Navbar />
+            {children}
+        </div>
+    )
 }

@@ -1,77 +1,57 @@
-import { GetStaticProps } from 'next'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import ApiSearchResponse from 'prismic-javascript/types/ApiSearchResponse'
-import { RichTextBlock } from 'prismic-reactjs'
 import React, { useContext } from 'react'
+import { BlogProps } from '.'
+import { BlogShow } from '../../../components/blog/BlogShow'
 
 import { Layout } from '../../../components/Layout'
 import { LanguageContext, LanguageContextType } from '../../../context/LanguageContext'
 import { PrismicClient } from '../../../lib/api'
-import { PrismicDocument, SliceType } from '../../../types/prismic/types'
-
-interface PostProps {
-    title: RichTextBlock[]
-    excerpt: RichTextBlock[]
-    author: {
-        id: string
-        type: string
-        tags: string[]
-        slug: string
-        lang: string
-        link_type: 'Document'
-        isBroken: boolean
-    }
-    main_image: RichTextBlock
-    body: SliceType[]
-    display_name: string
-    meta_title: string
-    meta_description: string
-}
 
 interface PostPageProps {
-    data: ApiSearchResponse
-    contactQuery: ApiSearchResponse
-    morePosts: PrismicDocument<PostProps>[]
-    preview: any
+    post: BlogProps
 }
 
-export const Blog: React.FC<PostPageProps> = (props) => {
+const BlogShowPage: React.FC<PostPageProps> = ({ post }) => {
+    // console.log('post :>> ', post)
+    const router = useRouter()
     const lang = useContext(LanguageContext) as LanguageContextType
 
+    const slug = router.query.slug
     return (
         <Layout>
             <Head>
-                <title>Blog | Connexos Design</title>
+                <title>Espace Mo | Blog</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            Blog
+            <BlogShow post={post} />
         </Layout>
     )
 }
 
-export default Blog
+export default BlogShowPage
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const data = await PrismicClient.getAllByType('post', {
-        orderings: '[my.blog.date desc]',
-        lang: `${params?.lang ?? ''}`,
+    console.log('params', params)
+    const data = await PrismicClient.getByUID('blog', `${params?.slug}`, {
+        lang: `${params?.lang}`,
     })
-
-    const contactQuery = await PrismicClient.getByType('contact')
 
     return {
         props: {
-            data,
-            contactQuery,
+            post: data.data,
         },
     }
 }
 
-export async function getStaticPaths() {
-    const allPosts = await PrismicClient.getAllByType('post')
+export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
+    const posts = await PrismicClient.getAllByType('blog')
+    // console.log({ posts, locales })
 
     return {
-        paths: allPosts.map(({ uid, lang }) => `/blog/${lang}/${uid}`) || [],
+        paths: posts?.map(({ uid, lang }) => `/blog/${lang}/${uid}`) || [],
         fallback: true,
     }
 }
