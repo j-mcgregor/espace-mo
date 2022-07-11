@@ -1,32 +1,44 @@
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
-import ApiSearchResponse from 'prismic-javascript/types/ApiSearchResponse'
+import { RichTextBlock } from 'prismic-reactjs'
 import React, { useContext } from 'react'
-import { BlogIndex } from '../../../components/blog'
 
+import { BlogIndex } from '../../../components/blog'
 import { Layout } from '../../../components/Layout'
 import { LanguageContext, LanguageContextType } from '../../../context/LanguageContext'
 import { PrismicClient } from '../../../lib/api'
-import { PostProps, PrismicDocument } from '../../../types/prismic/types'
+import { ContactProps, PrismicDocument } from '../../../types/prismic/types'
 
-interface PostPageProps {
-    data: ApiSearchResponse
-    contactQuery: ApiSearchResponse
-    morePosts: PrismicDocument<PostProps>[]
+export interface BlogProps {
+    title: RichTextBlock[]
+    subtitle: RichTextBlock[]
+    body: RichTextBlock[]
+    main_image: RichTextBlock
+}
+
+export interface MainProps {
+    title: RichTextBlock[]
+    subtitle: RichTextBlock[]
+    main_image: RichTextBlock
+}
+
+export interface BlogPageProps {
+    contact: PrismicDocument<ContactProps>[]
+    main: PrismicDocument<MainProps>[]
+    posts: PrismicDocument<BlogProps>[]
     preview: any
 }
 
-export const BlogPage: React.FC<PostPageProps> = (props) => {
+export const BlogPage: React.FC<BlogPageProps> = ({ contact, main, posts }) => {
     const lang = useContext(LanguageContext) as LanguageContextType
 
-    console.log('lang', lang)
     return (
         <Layout>
             <Head>
                 <title>Espace Mo | Blog</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <BlogIndex />
+            <BlogIndex data={main} posts={posts} />
         </Layout>
     )
 }
@@ -34,17 +46,32 @@ export const BlogPage: React.FC<PostPageProps> = (props) => {
 export default BlogPage
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-    // const data = await PrismicClient.getAllByType('post', {
-    //     orderings: '[my.blog.date desc]',
-    //     lang: `${params?.lang ?? ''}`,
-    // })
+    const main = await PrismicClient.getByType('blog_main', {
+        lang: `${params?.lang}` ?? '*',
+    })
 
-    const contactQuery = await PrismicClient.getByType('contact')
+    const posts = await PrismicClient.getByType('blog', {
+        lang: `${params?.lang}` ?? '*',
+        orderings: {
+            field: 'document.first_publication_date',
+            direction: 'desc',
+        },
+    })
+
+    const contact = await PrismicClient.getByType('contact')
+
+    // @ts-ignore
+    const mainQuery: Array<PrismicDocument<MainProps>> = main.results
+    // @ts-ignore
+    const postsQuery: Array<PrismicDocument<BlogProps>> = posts.results
+    // @ts-ignore
+    const contactQuery: Array<PrismicDocument<ContactProps>> = contact.results
 
     return {
         props: {
-            // data,
-            contactQuery,
+            main: mainQuery,
+            posts: postsQuery,
+            contact: contactQuery,
         },
     }
 }

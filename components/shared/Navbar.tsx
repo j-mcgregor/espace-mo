@@ -12,16 +12,15 @@ function classNames(...classes: string[]) {
 
 export const Navbar: React.FC = () => {
     const router = useRouter()
+    const [lang, setLang] = useContext(LanguageContext) as LanguageContextType
 
     const navigation = [
         { name: 'Home', href: '/', current: router.route === '/' },
         { name: 'About', href: '/about', current: router.route === '/about' },
-        { name: 'Blog', href: '/blog/en', current: router.route.startsWith('/blog') },
+        { name: 'Blog', href: `/blog/${lang}`, current: router.route.startsWith('/blog') },
         { name: 'Book', href: '/book', current: router.route === '/book' },
         { name: 'Contact', href: '/contact', current: router.route === '/contact' },
     ]
-
-    const [lang, setLang] = useContext(LanguageContext) as LanguageContextType
 
     return (
         <Disclosure as="nav" className="text-gray-900 absolute w-full z-50">
@@ -127,7 +126,7 @@ export const Navbar: React.FC = () => {
                     </div>
 
                     <Disclosure.Panel className="sm:hidden">
-                        <div className="px-2 pt-2 pb-3 space-y-1">
+                        <div className="px-2 pt-2 pb-3 space-y-1 bg-white">
                             {navigation.map((item) => (
                                 <Disclosure.Button
                                     key={item.name}
@@ -137,7 +136,7 @@ export const Navbar: React.FC = () => {
                                         item.current
                                             ? 'bg-gray-900 text-white'
                                             : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                        'block px-3 py-2 rounded-md text-base font-medium'
+                                        'block px-3 py-2 rounded-md text-base font-medium z-50'
                                     )}
                                     aria-current={item.current ? 'page' : undefined}
                                 >
