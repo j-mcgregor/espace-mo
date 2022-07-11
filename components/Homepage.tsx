@@ -1,10 +1,10 @@
 import Link from 'next/link'
-import { HTMLSerializer, RichText } from 'prismic-reactjs'
+import { RichText } from 'prismic-reactjs'
 import React, { useContext, useEffect, useState } from 'react'
+
 import { LanguageContext, LanguageContextType } from '../context/LanguageContext'
 import { PrismicDocument, PrismicHomepageProps, PrismicSharedProps } from '../types/prismic/types'
 import ErrorBoundary from './ErrorBoundary'
-import Hero from './shared/Hero'
 
 interface IHome {
     query: PrismicDocument<PrismicHomepageProps>[]
@@ -31,7 +31,7 @@ const Homepage: React.FC<IHome> = ({ query, shared }) => {
         <ErrorBoundary>
             <div className="bg-white relative">
                 <div className="container mx-auto px-6 sm:px-12 flex flex-col sm:flex-row items-center relative z-10">
-                    <div className="sm:w-1/2 xl:w-2/6 flex flex-col items-start py-24 sm:py-0">
+                    <div className="sm:w-1/2 xl:w-2/6 flex flex-col items-start py-24 sm:py-0 space-y-3">
                         <h1 className="text-6xl xl:text-8xl font-abhaya-libre text-green-900 font-bold leading-none">
                             {RichText.asText(data?.data.header || [])}
                         </h1>
@@ -191,23 +191,25 @@ const Homepage: React.FC<IHome> = ({ query, shared }) => {
                                     src={data?.data.intro_image.url}
                                     alt={data?.data.intro_image.alt || ''}
                                     role="img"
-                                    className="w-full h-full lg:hidden"
+                                    className="w-full h-44 lg:hidden object-cover"
                                 />
                             </div>
                         </div>
                         <div className="lg:w-4/12 flex justify-center items-center">
-                            <div className="ml-10 flex flex-col">
+                            <div className="sm:ml-10 flex flex-col my-3">
                                 <h1 className="dark:text-gray-700 text-4xl md:text-5xl xl:text-6xl font-semibold text-gray-900 w-7/12">
                                     {RichText.asText(data?.data.intro_title || [])}
                                 </h1>
                                 <p className="dark:text-gray-600 md:w-7/12 lg:w-11/12 xl:w-10/12 mt-4 lg:mt-5 text-base leading-normal text-gray-600">
                                     {RichText.asText(data?.data.intro_description || [])}
                                 </p>
-                                <Link href="#">
-                                    <a className="text-white sm:font-xl uppercase py-3 px-6 sm:py-4 sm:px-8 rounded-full shadow-lg bg-green-900 hover:bg-green-800 mt-8 inline-block">
-                                        {sharedData?.data.book_now}
-                                    </a>
-                                </Link>
+                                <a
+                                    className="text-white sm:font-xl uppercase py-3 px-6 sm:py-4 sm:px-8 rounded-full shadow-lg bg-green-900 hover:bg-green-800 mt-8 inline-block"
+                                    target="_blank"
+                                    href="https://www.gorendezvous.com/espacemo2"
+                                >
+                                    {sharedData?.data.book_now}
+                                </a>
                             </div>
                         </div>
                     </div>
