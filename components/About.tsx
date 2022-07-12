@@ -13,7 +13,6 @@ export const About: React.FC<IAbout> = ({ query, shared }) => {
     const [lang] = useContext(LanguageContext) as LanguageContextType
     const [data, setData] = useState<PrismicDocument<PrismicAboutpageProps>>()
     const [sharedData, setSharedData] = useState<PrismicDocument<PrismicSharedProps>>()
-    console.log({ lang })
 
     useEffect(() => {
         if (query && shared) {

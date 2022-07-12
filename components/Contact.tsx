@@ -14,7 +14,6 @@ interface IContact {
 }
 
 export const Contact: React.FC<IContact> = ({ query, shared }) => {
-    console.log(shared)
     const [lang] = useContext(LanguageContext) as LanguageContextType
     const [data, setData] = useState<PrismicDocument<PrismicContactProps>>()
     const [sharedData, setSharedData] = useState<PrismicDocument<PrismicSharedProps>>()

@@ -15,7 +15,6 @@ const Homepage: React.FC<IHome> = ({ query, shared }) => {
     const [lang] = useContext(LanguageContext) as LanguageContextType
     const [data, setData] = useState<PrismicDocument<PrismicHomepageProps>>()
     const [sharedData, setSharedData] = useState<PrismicDocument<PrismicSharedProps>>()
-    console.log({ lang })
 
     useEffect(() => {
         if (query && shared) {

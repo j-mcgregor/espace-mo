@@ -15,7 +15,6 @@ interface PostPageProps {
 }
 
 const BlogShowPage: React.FC<PostPageProps> = ({ post }) => {
-    // console.log('post :>> ', post)
     const router = useRouter()
     const lang = useContext(LanguageContext) as LanguageContextType
 
@@ -34,7 +33,6 @@ const BlogShowPage: React.FC<PostPageProps> = ({ post }) => {
 export default BlogShowPage
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-    console.log('params', params)
     const data = await PrismicClient.getByUID('blog', `${params?.slug}`, {
         lang: `${params?.lang}`,
     })
@@ -46,12 +44,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     }
 }
 
-export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
-    const posts = await PrismicClient.getAllByType('blog')
-    // console.log({ posts, locales })
-
+export const getStaticPaths: GetStaticPaths = async () => {
+    const posts = await PrismicClient.getAllByType('blog', { lang: '*' })
     return {
-        paths: posts?.map(({ uid, lang }) => `/blog/${lang}/${uid}`) || [],
+        paths:
+            posts?.map(({ uid, lang }) => {
+                console.log(`/blog/${lang}/${uid}`)
+                return `/blog/${lang}/${uid}`
+            }) || [],
         fallback: true,
     }
 }

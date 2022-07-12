@@ -29,9 +29,7 @@ export interface BlogPageProps {
     preview: any
 }
 
-export const BlogPage: React.FC<BlogPageProps> = ({ contact, main, posts }) => {
-    const lang = useContext(LanguageContext) as LanguageContextType
-
+export const BlogPage: React.FC<BlogPageProps> = ({ main, posts }) => {
     return (
         <Layout>
             <Head>
@@ -58,29 +56,27 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         },
     })
 
-    const contact = await PrismicClient.getByType('contact')
+    // const contact = await PrismicClient.getByType('contact')
 
     // @ts-ignore
     const mainQuery: Array<PrismicDocument<MainProps>> = main.results
     // @ts-ignore
     const postsQuery: Array<PrismicDocument<BlogProps>> = posts.results
     // @ts-ignore
-    const contactQuery: Array<PrismicDocument<ContactProps>> = contact.results
+    // const contactQuery: Array<PrismicDocument<ContactProps>> = contact.results
 
     return {
         props: {
             main: mainQuery,
             posts: postsQuery,
-            contact: contactQuery,
+            // contact: contactQuery,
         },
     }
 }
 
 export async function getStaticPaths() {
-    const allPosts = await PrismicClient.getAllByType('post')
-
     return {
-        paths: allPosts.map(({ uid, lang }) => `/blog/${lang}/${uid}`) || [],
+        paths: ['/blog/en-ca', '/blog/fr-ca'],
         fallback: true,
     }
 }
