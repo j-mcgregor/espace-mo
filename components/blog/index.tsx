@@ -1,12 +1,12 @@
-import Link from 'next/link'
 import { RichText } from 'prismic-reactjs'
 import React, { FC, useContext, useEffect, useState } from 'react'
+import { FiLoader } from 'react-icons/fi'
+
+import { Lang } from '../../constants'
 import { LanguageContext, LanguageContextType } from '../../context/LanguageContext'
 import { BlogProps, MainProps } from '../../pages/blog/[lang]'
 import { PrismicDocument } from '../../types/prismic/types'
 import { BlogCard } from './BlogCard'
-import { FiLoader } from 'react-icons/fi'
-import { Lang } from '../../constants'
 
 interface BlogIndexProps {
     data: PrismicDocument<MainProps>[]
@@ -43,13 +43,14 @@ export const BlogIndex: FC<BlogIndexProps> = ({ data, posts }) => {
                         <div className="flex flex-wrap -m-4">
                             {posts?.map((post, i) => (
                                 <BlogCard
+                                    key={`/blog/${lang}/${post.uid}`}
                                     button={{
                                         href: `/blog/${lang}/${post.uid}`,
-                                        label: lang === Lang.FR ? 'Voir plus' : 'See more',
+                                        label: lang === Lang?.FR ? 'Voir plus' : 'See more',
                                     }}
-                                    title={<RichText render={post.data.title} />}
-                                    summary={<RichText render={post.data.subtitle} />}
-                                    image={`${post.data.main_image.url}`}
+                                    title={<RichText render={post?.data?.title} />}
+                                    summary={<RichText render={post?.data?.subtitle} />}
+                                    image={`${post?.data?.main_image?.url}`}
                                 />
                             ))}
                         </div>

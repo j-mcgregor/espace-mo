@@ -1,11 +1,10 @@
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import { RichTextBlock } from 'prismic-reactjs'
-import React, { useContext } from 'react'
+import React from 'react'
 
 import { BlogIndex } from '../../../components/blog'
 import { Layout } from '../../../components/Layout'
-import { LanguageContext, LanguageContextType } from '../../../context/LanguageContext'
 import { PrismicClient } from '../../../lib/api'
 import { ContactProps, PrismicDocument } from '../../../types/prismic/types'
 

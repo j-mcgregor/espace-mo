@@ -28,9 +28,9 @@ export const BlogCard: FC<BlogCardProps> = ({ category, title, summary, button, 
                     <h1 className="title-font text-lg font-medium text-gray-600 mb-3">{title}</h1>
                     <p className="leading-relaxed mb-3">{summary}</p>
                     <div className="flex items-center flex-wrap ">
-                        <Link href={button.href}>
+                        <Link href={button?.href}>
                             <a className="bg-gradient-to-r from-cyan-400 to-blue-400 hover:scale-105 drop-shadow-md  shadow-cla-blue px-4 py-1 rounded-lg">
-                                {button.label}
+                                {button?.label}
                             </a>
                         </Link>
                     </div>
