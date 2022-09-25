@@ -4,9 +4,11 @@ import { BlogProps } from '../../pages/blog/[lang]'
 
 export interface BlogShowProps {
     post: BlogProps
+    published: string
 }
 
-export const BlogShow: FC<BlogShowProps> = ({ post }) => {
+export const BlogShow: FC<BlogShowProps> = ({ post, published }) => {
+    console.log(published)
     return (
         <div className="max-w-screen-xl mx-auto">
             <main className="pt-20">
@@ -18,23 +20,14 @@ export const BlogShow: FC<BlogShowProps> = ({ post }) => {
                         className="absolute left-0 top-0 w-full h-full z-0 object-cover"
                     />
                     <div className="p-4 absolute bottom-0 left-0 z-20">
-                        <a
-                            href="#"
-                            className="px-4 py-1 bg-black text-gray-200 inline-flex items-center justify-center mb-2"
-                        >
-                            Nutrition
-                        </a>
                         <h2 className="text-4xl font-semibold text-gray-100 leading-tight">
                             <RichText render={post?.title} />
                         </h2>
                         <div className="flex mt-3">
-                            <img
-                                src="https://randomuser.me/api/portraits/men/97.jpg"
-                                className="h-10 w-10 rounded-full mr-2 object-cover"
-                            />
                             <div>
-                                <p className="font-semibold text-gray-200 text-sm"> Mike Sullivan </p>
-                                <p className="font-semibold text-gray-400 text-xs"> 14 Aug </p>
+                                <p className="font-semibold text-white bg-slate-800 px-2 py-[1px] rounded text-xs">
+                                    {new Date(published).toLocaleDateString()}
+                                </p>
                             </div>
                         </div>
                     </div>

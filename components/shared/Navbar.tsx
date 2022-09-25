@@ -23,7 +23,7 @@ export const Navbar: React.FC = () => {
     ]
 
     return (
-        <Disclosure as="nav" className="text-gray-900 absolute w-full z-50">
+        <Disclosure as="nav" className="text-white fixed w-full z-50 bg-black/30">
             {({ open }) => (
                 <>
                     <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -51,7 +51,7 @@ export const Navbar: React.FC = () => {
                                         src="/images/logo vector.png"
                                         alt="Espace Mo"
                                     />
-                                    <div className="font-thin capitalize tracking-wider text-gray-900">
+                                    <div className="font-medium capitalize tracking-wider text-white">
                                         Espace Mo
                                     </div>
                                 </div>
@@ -64,8 +64,8 @@ export const Navbar: React.FC = () => {
                                                 className={classNames(
                                                     item.current
                                                         ? 'bg-gray-700 text-white'
-                                                        : 'text-gray-900 hover:bg-gray-700 hover:text-white',
-                                                    'px-3 py-2 rounded-md text-sm font-thin capitalize tracking-wider'
+                                                        : 'text-white hover:bg-gray-700 hover:text-white',
+                                                    'px-3 py-2 rounded-md text-sm font-normal capitalize tracking-wider'
                                                 )}
                                                 aria-current={item.current ? 'page' : undefined}
                                             >
@@ -92,14 +92,14 @@ export const Navbar: React.FC = () => {
                                     leaveFrom="transform opacity-100 scale-100"
                                     leaveTo="transform opacity-0 scale-95"
                                 >
-                                    <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                        <div className="px-1 py-1 ">
+                                    <Menu.Items className="absolute right-0 mt-2 w-16 origin-top-right divide-y divide-gray-100 rounded-md bg-black/50 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <div className="px-1 py-1 text-center">
                                             <Menu.Item>
                                                 {({ active }) => (
                                                     <button
                                                         className={`${
-                                                            active ? 'bg-violet-500 text-white' : 'text-gray-900'
-                                                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                                            active ? 'bg-violet-500 text-white' : 'text-white'
+                                                        } group flex w-full items-center justify-center rounded-md px-2 py-2 text-sm`}
                                                         onClick={() => setLang(Lang.EN)}
                                                     >
                                                         EN
@@ -110,8 +110,8 @@ export const Navbar: React.FC = () => {
                                                 {({ active }) => (
                                                     <button
                                                         className={`${
-                                                            active ? 'bg-violet-500 text-white' : 'text-gray-900'
-                                                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                                            active ? 'bg-violet-500 text-white' : 'text-white'
+                                                        } group flex w-full items-center justify-center rounded-md px-2 py-2 text-sm`}
                                                         onClick={() => setLang(Lang.FR)}
                                                     >
                                                         FR

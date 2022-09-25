@@ -34,6 +34,7 @@ export interface PrismicHomepageProps {
     intro_title: RichTextBlock[]
     intro_description: RichTextBlock[]
     intro_image: RichTextBlock
+    grain: RichTextBlock
     book_now: string
 }
 
@@ -51,6 +52,7 @@ export interface PrismicContactProps {
         method_value: string
     }[]
     contact_image: RichTextBlock
+    background_image: RichTextBlock
   }
 
 export interface PrismicSharedProps {
@@ -64,12 +66,17 @@ export interface PrismicSharedProps {
     "form-firstname": string
     "form-lastname": string
     "form-message": string
+    background_image: RichTextBlock
 }
 
 export interface PrismicAboutpageProps {
     title: RichTextBlock[]
     description: RichTextBlock[]
     main_image: RichTextBlock
+    gallery_title: RichTextBlock[]
+    gallery: {
+        gallery_image: RichTextBlock
+    }[]
 }
 
 export interface SharedProps {

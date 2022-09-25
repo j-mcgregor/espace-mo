@@ -22,7 +22,7 @@ export const Booking: React.FC<IBooking> = ({ query }) => {
     }, [query, lang])
 
     return (
-        <body className="bg-gray-50 flex items-center justify-center py-40">
+        <body className="bg-gray-50 flex items-center justify-center min-h-screen">
             <div className="container mx-auto">
                 <div className="flex  justify-center px-6">
                     <div className="w-full xl:w-3/4 lg:w-11/12 flex sm:flex-row flex-col-reverse shadow-lg">

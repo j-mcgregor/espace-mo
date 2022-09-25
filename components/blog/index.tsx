@@ -6,6 +6,7 @@ import { BlogProps, MainProps } from '../../pages/blog/[lang]'
 import { PrismicDocument } from '../../types/prismic/types'
 import { BlogCard } from './BlogCard'
 import { FiLoader } from 'react-icons/fi'
+import { Lang } from '../../constants'
 
 interface BlogIndexProps {
     data: PrismicDocument<MainProps>[]
@@ -42,8 +43,10 @@ export const BlogIndex: FC<BlogIndexProps> = ({ data, posts }) => {
                         <div className="flex flex-wrap -m-4">
                             {posts?.map((post, i) => (
                                 <BlogCard
-                                    button={{ href: `/blog/${lang}/${post.uid}`, label: 'See more' }}
-                                    category="Category 1"
+                                    button={{
+                                        href: `/blog/${lang}/${post.uid}`,
+                                        label: lang === Lang.FR ? 'Voir plus' : 'See more',
+                                    }}
                                     title={<RichText render={post.data.title} />}
                                     summary={<RichText render={post.data.subtitle} />}
                                     image={`${post.data.main_image.url}`}

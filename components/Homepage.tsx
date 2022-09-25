@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { RichText } from 'prismic-reactjs'
 import React, { useContext, useEffect, useState } from 'react'
@@ -21,6 +22,7 @@ const Homepage: React.FC<IHome> = ({ query, shared }) => {
             const home = query.find((d) => d.lang === lang)
             const sharedD = shared.find((d) => d.lang === lang)
 
+            console.log(home)
             setData(home)
             setSharedData(sharedD)
         }
@@ -28,26 +30,47 @@ const Homepage: React.FC<IHome> = ({ query, shared }) => {
 
     return (
         <ErrorBoundary>
-            <div className="bg-white relative">
+            <div className="bg-white relative h-auto lg:min-h-screen flex items-center">
+                <div className="absolute top-0 bottom-0 left-0 right-0 h-full w-full bg-black" />
+                {data?.data['background-image']?.url && (
+                    <Image
+                        src={data?.data['background-image']?.url}
+                        layout="fill"
+                        className="absolute top-0 bottom-0 left-0 right-0 h-full w-full opacity-70"
+                        objectFit="cover"
+                    />
+                )}
                 <div className="container mx-auto px-6 sm:px-12 flex flex-col sm:flex-row items-center relative z-10">
                     <div className="sm:w-1/2 xl:w-2/6 flex flex-col items-start py-24 sm:py-0 space-y-3">
-                        <h1 className="text-6xl xl:text-8xl font-abhaya-libre text-green-900 font-bold leading-none">
+                        <h1 className="text-6xl xl:text-8xl font-abhaya-libre text-white font-bold leading-none">
                             {RichText.asText(data?.data.header || [])}
                         </h1>
-                        <h2 className="text-xl xl:text-3xl font-abhaya-libre text-green-900 uppercase font-bold leading-none tracking-widest -mt-2 mb-6">
+                        <h2 className="text-xl xl:text-3xl font-abhaya-libre text-white uppercase font-bold leading-none tracking-widest -mt-2 mb-6">
                             {RichText.asText(data?.data.subtitle || [])}
                         </h2>
-                        <p className="xl:text-lg tracking-wider text-gray-700 font-alegraya-sans">
+                        <p className="xl:text-lg tracking-wider font-alegraya-sans text-white">
                             {RichText.asText(data?.data.description || [])}
                         </p>
-                        <Link href="#">
+                        <Link href="/book">
                             <a className="font-montserrat text-white sm:font-xl uppercase py-3 px-6 sm:py-4 sm:px-8 rounded-full shadow-lg bg-green-900 hover:bg-green-800 mt-8">
-                                {sharedData?.data.book_now}
+                                {data?.data.book_now}
                             </a>
                         </Link>
                     </div>
-                    <div className="hidden sm:flex items-center justify-center xl:justify-end w-1/2 xl:w-4/6 py-32">
-                        <svg
+                    <div className="hidden sm:flex flex-row-reverse items-center justify-center xl:justify-end w-1/2 xl:w-4/6">
+                        <div className="h-full w-full flex justify-center items-end">
+                            {data?.data.logo.url && (
+                                <Image
+                                    src={data?.data?.logo?.url || ''}
+                                    layout="fixed"
+                                    className="h-full w-full"
+                                    height={400}
+                                    width={400}
+                                    // objectFit="contain"
+                                />
+                            )}
+                        </div>
+                        {/* <svg
                             className="h-full w-2/3"
                             xmlns="http://www.w3.org/2000/svg"
                             data-name="Capa 1"
@@ -118,10 +141,10 @@ const Homepage: React.FC<IHome> = ({ query, shared }) => {
                                 fill="#d7d7d7"
                                 d="M184.28 29.89c-3.32.06-6.19 3.32-5.07 6.64v.12c-.73 3.15 2.75 4.85 5.44 4.13a5 5 0 003.46-3.18 5.81 5.81 0 00.75-1.64 4.79 4.79 0 00-4.58-6.07zM177.08 45a2.08 2.08 0 00-2.08 2.09 2.06 2.06 0 102.08-2.09zM195.23 33.17a.94.94 0 000 1.87.94.94 0 000-1.87zM198.44 19c-2.88 0-2.88 4.46 0 4.46s2.88-4.46 0-4.46zM208.33 38.67a1.92 1.92 0 00-1-.86 1.78 1.78 0 00-1.77 0 2.11 2.11 0 00-1 2.4 2.15 2.15 0 001.72 1.48 2 2 0 002.05-1 2.16 2.16 0 000-2.02zM184.31 12.9a2.2 2.2 0 102.19 2.19 2.21 2.21 0 00-2.19-2.19zM206.19 7.68a1.37 1.37 0 00-1.81.11c-.24.27-.5.54-.73.83a5.16 5.16 0 00-.5 1 1.23 1.23 0 000 1.12.45.45 0 00.45.5h.1a1 1 0 00.84 0 4.36 4.36 0 00.52-.11 2.58 2.58 0 001.43-1.58 1.4 1.4 0 00-.3-1.87zM202.08 63a1.39 1.39 0 00-.83.29 1.12 1.12 0 00-.36.39c-.14.36-.17.44-.1.24a.88.88 0 000 .91c-.07-.2 0-.12.1.24l.22.27a1.42 1.42 0 001 .41 1.38 1.38 0 100-2.75z"
                             />
-                        </svg>
+                        </svg> */}
                     </div>
                 </div>
-                <svg
+                {/* <svg
                     className="absolute left-0 top-0 w-full h-full"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 645.55 419.74"
@@ -173,24 +196,29 @@ const Homepage: React.FC<IHome> = ({ query, shared }) => {
                             d="M317.4 361.68c6.73 1.45 11.62 5.46 15.17 11.22 2.4 3.91 3.94 8.23 5.67 12.46a13.46 13.46 0 004.89 6.52 24 24 0 005.72 2.45l1.44.44c.41.13.81.34.74.82s-.57.57-1 .58a8 8 0 01-2.94-.62 15.16 15.16 0 01-5.32-3 9.15 9.15 0 00-4.89-1.93 54.94 54.94 0 01-6.83-1.34 28.66 28.66 0 01-13.56-8.68c-3.25-3.52-5-7.78-6.1-12.34a32.49 32.49 0 00-1.49-5.11c-.32-.74.14-1 .71-.84a2.75 2.75 0 001.56-.14 10.54 10.54 0 016.23-.49zm14.92 21.87a37.86 37.86 0 00-1.06-4 46.39 46.39 0 00-3.49-10.05 7.08 7.08 0 00-1.42-2.41 20.7 20.7 0 00-5.69-3.58 14 14 0 00-4.53-1.11 28.94 28.94 0 013.1 5.41c.83 1.88 1.6 3.78 2.51 5.62a14.76 14.76 0 005 6.07c1.89 1.29 3.71 2.7 5.58 4.05zm-2.68-.93c-.5-.35-.82-.59-1.15-.81a65.77 65.77 0 01-7.76-5.93 10.41 10.41 0 00-2.34-1.54 43 43 0 01-4.69-2.26c-.37-.23-.64-.65-1.18-.7 2.9 9.01 8.67 11.67 17.12 11.24zm9.67 7.55a2.28 2.28 0 00-.26-.41c-2.23-2.47-5.09-4.13-7.76-6a2.65 2.65 0 00-.87-.22c-1.92-.4-3.88 0-5.81-.3-1.74-.29-3.35-1-5.08-1.35a26.48 26.48 0 009.27 6c3.35 1.26 6.89 1.68 10.51 2.28zm-28.81-27.11a87.27 87.27 0 0010.85 11.7c-2-4-3.13-8.4-5.85-12a.9.9 0 00-.91-.43 31.53 31.53 0 00-4.09.73zm18 6.38c.31.69.61 1.39.93 2.07a53.23 53.23 0 012.51 8.36 13 13 0 006.1 7.75c-2.71-6.46-4.64-13.07-9.53-18.18zm-10.46 4c-2.54-2.68-4.83-5.57-7.37-8.27.7 1.8.52 3.9 2 5.37a11.09 11.09 0 005.38 2.88z"
                         />
                     </g>
-                </svg>
+                </svg> */}
             </div>
-            <div className="dark:bg-gray-50">
+            <div className="dark:bg-gray-50 relative">
+                {data?.data?.grain?.url && (
+                    <div className="w-full absolute top-0 left-0 h-full overflow-hidden">
+                        <Image
+                            src={data?.data?.grain?.url || ''}
+                            layout="fill"
+                            className="h-full w-full opacity-5"
+                        />
+                    </div>
+                )}
                 <div className="container mx-auto py-9 md:py-12 lg:py-24">
                     <div className="flex flex-col lg:flex-row justify-center items-strech mx-4">
                         <div className="lg:w-4/12 mt-6 md:mt-8 lg:mt-0">
                             <div className="relative w-full h-full">
-                                <img
-                                    src={data?.data.intro_image.url}
-                                    alt={data?.data.intro_image.alt || ''}
-                                    role="img"
-                                    className="w-full h-full relative hidden lg:block"
-                                />
-                                <img
-                                    src={data?.data.intro_image.url}
-                                    alt={data?.data.intro_image.alt || ''}
-                                    role="img"
-                                    className="w-full h-44 lg:hidden object-cover"
+                                <Image
+                                    src={data?.data?.intro_image?.url || '/images/placeholder.png'}
+                                    layout="fixed"
+                                    className="h-full w-full shadow-md"
+                                    height={400}
+                                    width={400}
+                                    objectFit="contain"
                                 />
                             </div>
                         </div>
@@ -202,13 +230,13 @@ const Homepage: React.FC<IHome> = ({ query, shared }) => {
                                 <p className="dark:text-gray-600 md:w-7/12 lg:w-11/12 xl:w-10/12 mt-4 lg:mt-5 text-base leading-normal text-gray-600">
                                     {RichText.asText(data?.data.intro_description || [])}
                                 </p>
-                                <a
-                                    className="text-white sm:font-xl uppercase py-3 px-6 sm:py-4 sm:px-8 rounded-full shadow-lg bg-green-900 hover:bg-green-800 mt-8 inline-block"
-                                    target="_blank"
-                                    href="https://www.gorendezvous.com/espacemo2"
-                                >
-                                    {sharedData?.data.book_now}
-                                </a>
+                                <div>
+                                    <Link href="/book">
+                                        <a className="text-white sm:font-xl uppercase py-3 px-6 sm:py-4 sm:px-8 rounded-full shadow-lg bg-green-900 hover:bg-green-800 mt-8 inline-block">
+                                            {data?.data.book_now}
+                                        </a>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     </div>

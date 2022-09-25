@@ -2,7 +2,7 @@
 const nextConfig = {
     reactStrictMode: false,
     images: {
-        domains: ['images.prismic.io'],
+        domains: ['images.prismic.io', 'espace-mo.cdn.prismic.io'],
     },
     i18n: {
         // These are all the locales you want to support in

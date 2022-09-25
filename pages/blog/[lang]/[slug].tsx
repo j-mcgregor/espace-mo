@@ -12,9 +12,10 @@ import { PrismicClient } from '../../../lib/api'
 
 interface PostPageProps {
     post: BlogProps
+    published: string
 }
 
-const BlogShowPage: React.FC<PostPageProps> = ({ post }) => {
+const BlogShowPage: React.FC<PostPageProps> = ({ post, published }) => {
     const router = useRouter()
     const lang = useContext(LanguageContext) as LanguageContextType
 
@@ -25,7 +26,7 @@ const BlogShowPage: React.FC<PostPageProps> = ({ post }) => {
                 <title>Espace Mo | Blog</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <BlogShow post={post} />
+            <BlogShow post={post} published={published} />
         </Layout>
     )
 }
@@ -40,6 +41,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return {
         props: {
             post: data.data,
+            published: data.first_publication_date,
         },
     }
 }
@@ -49,7 +51,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
     return {
         paths:
             posts?.map(({ uid, lang }) => {
-                console.log(`/blog/${lang}/${uid}`)
                 return `/blog/${lang}/${uid}`
             }) || [],
         fallback: true,
